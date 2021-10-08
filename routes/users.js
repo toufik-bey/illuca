@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router(); 
 const {check, validationResult} = require('express-validator'); 
 const User = require('../Models/Users'); 
+const bcrypt = require('bcrypt'); 
 
 
 router.post('/',[
@@ -10,7 +11,7 @@ router.post('/',[
     check('password','type password greater then').isLength({min:8})
 ]
 , async (req,res)=>{
-    const {userName,email,password} = req.body; 
+   let {userName,email,password} = req.body; 
    const errors = validationResult(req);
    if(! errors.isEmpty()){
       res.status(400).json({msg: errors.array()}); 
@@ -21,14 +22,21 @@ router.post('/',[
        if(user == []) {
            res.status(400).send('User already exist')
        }
-     
-        user = new User({
-            userName:userName,
-            email:email,
-            password:password
-        })
-
-        await user.save(); 
+     // encryption of the password 
+    bcrypt.genSalt(10, function (err, salt) {
+           console.log(salt);
+           bcrypt.hash(password, salt, async(err, hash) => {
+            console.log(password);
+            user = new User({
+                userName:userName,
+                email:email,
+                password:hash
+            })
+          
+            await user.save(); 
+           });
+       })
+       
 
         // implement 
         res.json('user saved '); 
@@ -37,7 +45,7 @@ router.post('/',[
 
    } catch (error) {
        console.error(error.message);
-       res.status(500).json({msg:error.message}); 
+       res.status(500).json({msg:error.message});
    }
 }); 
 
