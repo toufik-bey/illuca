@@ -1,3 +1,4 @@
 {
-    "mongoUri":"mongodb+srv://toufik:toufik103@cluster0.jdu5m.mongodb.net/illuca?retryWrites=true&w=majority"
+    "mongoUri":"mongodb+srv://toufik:toufik103@cluster0.jdu5m.mongodb.net/illuca?retryWrites=true&w=majority",
+    "jwtSecret":"theSecret"
 }
