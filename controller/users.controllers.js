@@ -1,14 +1,17 @@
-const {check, validationResult} = require('express-validator'); 
 const User = require('../Models/Users'); 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken'); 
+const config= require('config')
 
 const register = async (req,res)=>{
     let {userName,email,password} = req.body; 
     
     
     try {
-        let user = await User.find({email:email}); 
-        if(user != []) {
+        let user = await User.find({email:email});
+        console.log(user);
+        if(user ==  []) {
+            console.log(user);
            return res.status(409).send('User already exist')
         }
       // encryption of the password 
@@ -49,7 +52,7 @@ const register = async (req,res)=>{
               
  
              } catch (error) {
-                console.log("mongo db error");
+                console.log(error.message);
              }
               
             });
