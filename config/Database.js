@@ -10,7 +10,8 @@ const connectDB = async ()=>{
         }); 
         console.log("Mongodb connected");
     } catch (err) {
-        console.error(err.message)
+        console.error("server crashed")
+        
     }
 }
 

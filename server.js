@@ -11,7 +11,7 @@ connectDB();
 app.use(express.json({extended:false})); 
 
 // application routes 
-app.use('/api/users', require('./routes/users')); 
+app.use('/api/users', require('./routes/users.routes')); 
 
 // init the server 
 app.listen(5000); 
